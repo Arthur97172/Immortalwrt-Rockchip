@@ -86,7 +86,9 @@ on:
         options:
           - 'yes'
           - 'no'
-
+env:
+  VERSION: ${{ inputs.luci_version }}
+  
 jobs:
   build:
     runs-on: ubuntu-22.04
