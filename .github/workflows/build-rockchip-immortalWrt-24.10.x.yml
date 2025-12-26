@@ -218,9 +218,7 @@ jobs:
       - name: 🧱 构建ImmortalWrt固件
         working-directory: ./imagebuilder
         run: |
-          # 同时使用 inputs.profile 确保型号正确
-          sed -i 's/make image.*/make image PROFILE="${{ github.event.inputs.profile }}" PACKAGES="$PACKAGES" FILES="files" OPKG_PACKAGES="--force-depends"/' ./build_config.sh
-          bash ./build_config.sh
+         bash ./build_config.sh
          
       - name: Create info
         run: |
