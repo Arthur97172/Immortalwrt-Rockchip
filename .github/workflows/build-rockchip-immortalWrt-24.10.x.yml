@@ -193,6 +193,11 @@ jobs:
            echo "❌ 无法获取 Kmod 哈希，请检查官方源是否存在该版本: $BASE_URL"
            exit 1
          fi  
+
+      - name: 🧱 构建ImmortalWrt固件
+        working-directory: ./imagebuilder
+        run: |
+         bash ./build_config.sh
          
       - name: Create info
         run: |
