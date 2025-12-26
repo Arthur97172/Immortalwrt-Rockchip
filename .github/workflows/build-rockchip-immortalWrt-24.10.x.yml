@@ -104,16 +104,7 @@ jobs:
           echo "${{ github.event.inputs.custom_router_ip }}" > "${{ github.workspace }}/custom/custom_router_ip.txt"
           echo "您设置的Rockchip软路由管理地址是:${{ github.event.inputs.custom_router_ip }}"
           # 后续步骤会将该文件映射到路由器/etc/config/custom_router_ip.txt 以便用于开机脚本99-custom.sh读取用户设置的ip
-      
-      - name: Validate PPPoE Inputs
-        run: |
-          if [[ "${{ inputs.enable_pppoe }}" == "yes" ]]; then
-            if [[ -z "${{ inputs.pppoe_account }}" || -z "${{ inputs.pppoe_password }}" ]]; then
-              echo "Error: PPPoE account and password must be provided when PPPoE is enabled!"
-              exit 1
-            fi
-          fi
-      
+            
       - name: Enable Store integration
         run: |
           if [ "${{ github.event.inputs.enable_store }}" == "true" ]; then
