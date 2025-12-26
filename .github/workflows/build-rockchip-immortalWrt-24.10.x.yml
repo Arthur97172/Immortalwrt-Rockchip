@@ -148,18 +148,37 @@ jobs:
 
       - name: ⏬ 复制必备文件
         run: |
+         # 1. 首先创建所有需要的目录层级
+         mkdir -p imagebuilder/files/etc/uci-defaults
+         mkdir -p imagebuilder/files/etc/opkg
+         mkdir -p imagebuilder/files/etc/config
+
+         # 2. 拷贝基础脚本到 imagebuilder 根目录
          cp rockchip/build_config.sh imagebuilder/
          cp rockchip/Makefile imagebuilder/
          cp rockchip/repositories.conf imagebuilder/
          cp shell/prepare-packages.sh imagebuilder/
          cp shell/custom-packages.sh imagebuilder/
-         cp arch/arch.conf imagebuilder/files/etc/opkg/arch.conf
-         cp rockchip/imm.config imagebuilder/.config
-         mkdir -p imagebuilder/files/etc/uci-defaults
+        
+         # 3. 拷贝核心配置文件 (.config 放在根目录)
+         [ -f "rockchip/imm.config" ] && cp rockchip/imm.config imagebuilder/.config || echo "imm.config not found"
+
+         # 4. 拷贝系统预设文件 (必须确保目录已创建)
          cp files/etc/uci-defaults/99-custom.sh imagebuilder/files/etc/uci-defaults/
-         mkdir -p imagebuilder/files/etc/opkg
+        
+         # 拷贝架构配置文件
+         [ -f "arch/arch.conf" ] && cp arch/arch.conf imagebuilder/files/etc/opkg/arch.conf || echo "arch.conf not found"
+        
+         # 拷贝自定义配置文件夹 (custom/ -> /etc/config/)
+         [ -d "custom" ] && cp -r custom/* imagebuilder/files/etc/config/ 2>/dev/null || true
+
+         # 5. 拷贝自定义软件源 (feeds)
          cp -r files/customfeeds/* imagebuilder/files/etc/opkg/ 2>/dev/null || true
-         # 验证信息
+        
+         # 验证关键文件是否存在
+         ls -l imagebuilder/files/etc/opkg/arch.conf && echo "✅ arch.conf 拷贝成功"
+         [ -f "imagebuilder/files/etc/opkg/customfeeds.conf" ] && echo "✅ 已拷贝 customfeeds.conf" || echo "⚠️ customfeeds.conf 不存在"
+          # 验证信息
          ls -l imagebuilder/files/etc/opkg/customfeeds.conf && echo "已拷贝 customfeeds.conf"
         
       - name: ⚙️ 动态获取 Kmod 哈希并更新配置
