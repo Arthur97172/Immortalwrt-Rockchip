@@ -41,7 +41,7 @@ cat repositories.conf
 # 定义初始化变量
 PACKAGES=""
 
-# iStoreOS官方集成列表，若启用则打开注释
+# ImmortalWrt官方集成列表，若启用则打开注释
 #PACKAGES="$PACKAGES adb"
 #PACKAGES="$PACKAGES adb-enablemodem"
 PACKAGES="$PACKAGES appfilter"
