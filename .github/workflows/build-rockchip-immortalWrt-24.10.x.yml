@@ -164,7 +164,7 @@ jobs:
         run: |
          BUILD_VER="${{ env.VERSION }}"
          # 确保基础路径正确（ARM 架构路径）
-         BASE_URL="https://downloads.openwrt.org/releases/${BUILD_VER}/targets/armsr/armv8/kmods/"
+         BASE_URL="https://downloads.immortalwrt.org/releases/${BUILD_VER}/targets/armsr/armv8/kmods/"
         
          echo "正在从 $BASE_URL 获取最新的内核哈希..."
          KMOD_DIR=$(curl -sL $BASE_URL | grep -oE "[0-9.-]+-[a-f0-9]{32}" | head -n 1)
@@ -197,7 +197,9 @@ jobs:
       - name: 🧱 构建ImmortalWrt固件
         working-directory: ./imagebuilder
         run: |
-         bash ./build_config.sh
+          # 同时使用 inputs.profile 确保型号正确
+          sed -i 's/make image.*/make image PROFILE="${{ github.event.inputs.profile }}" PACKAGES="$PACKAGES" FILES="files" OPKG_PACKAGES="--force-depends"/' ./build_config.sh
+          bash ./build_config.sh
          
       - name: Create info
         run: |
