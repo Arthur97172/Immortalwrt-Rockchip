@@ -128,8 +128,8 @@ jobs:
             echo "❎ 未启用 luci-app-store"
           fi
 
-     - name: ⚙️ 动态获取 Kmod 哈希并更新配置
-       run: |
+      - name: ⚙️ 动态获取 Kmod 哈希并更新配置
+        run: |
          BUILD_VER="${{ env.VERSION }}"
          # 确保基础路径正确（ARM 架构路径）
          BASE_URL="https://downloads.openwrt.org/releases/${BUILD_VER}/targets/armsr/armv8/kmods/"
