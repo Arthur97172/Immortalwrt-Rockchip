@@ -64,7 +64,7 @@ on:
           - xunlong_orangepi-r1-plus-lts
         required: true
         default: 'friendlyarm_nanopi-r3s'
-      custom_router_ip:
+      ipaddr:
         description: "请设置软路由的管理地址(注意仅对多网口软路由有效) 格式:192.168.x.1 或 10.x.x.1"
         required: true
         default: "192.168.10.1"
@@ -90,7 +90,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-
+    # 关键：添加写入权限，解决 403 报错
+    permissions:
+      contents: write
+      
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -98,12 +101,23 @@ jobs:
       - name: Set executable permissions
         run: chmod +x ${{ github.workspace }}/rockchip/build_config.sh
       
-      - name: Save Custom Router IP into OpenWrt files
+      - name: ⚙️ 设置IP、网关和版本号
         run: |
-          mkdir -p "${{ github.workspace }}/custom"
-          echo "${{ github.event.inputs.custom_router_ip }}" > "${{ github.workspace }}/custom/custom_router_ip.txt"
-          echo "您设置的Rockchip软路由管理地址是:${{ github.event.inputs.custom_router_ip }}"
-          # 后续步骤会将该文件映射到路由器/etc/config/custom_router_ip.txt 以便用于开机脚本99-custom.sh读取用户设置的ip
+         CONFIG_PATH="./files/uci-defaults/99-custom.sh"
+         echo "当前网络配置路径: $CONFIG_PATH"
+        
+         # 1. 替换版本号占位符
+         sed -i "s/版本号/${{ env.VERSION }}/g" "$CONFIG_PATH"
+         [ -f "./files/etc/banner" ] && sed -i "s/版本号/${{ env.VERSION }}/g" "./files/etc/banner"
+
+         # 2. 网络逻辑配置 (关键修改点：不再删除行，改用关键词替换)
+         sed -i "s/__IPADDR__/${{ inputs.ipaddr }}/g" "$CONFIG_PATH"
+
+         # 3. 替换脚本末尾的描述信息
+         sed -i "s/VERXXXX/${{ env.VERSION }}/g" "$CONFIG_PATH"
+        
+         echo "✅ 配置修改完成，输出预览："
+         cat "$CONFIG_PATH"
             
       - name: Enable Store integration
         run: |
