@@ -49,7 +49,7 @@ on:
           - nlnet_xiguapi-v3         
           - pine64_rock64
           - pine64_rockpro64
-          - radxa_cm3
+          - radxa_cm3-io
           - radxa_e25
           - radxa_rock-3a
           - radxa_rock-3b
