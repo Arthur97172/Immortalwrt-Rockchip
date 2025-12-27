@@ -1,5 +1,17 @@
 #!/bin/bash
 # Log file for debugging
+
+# --- 接收外部参数 ---
+# $1, $2 是执行脚本时后面跟着的参数
+PROFILE=${1:-"friendlyarm_nanopi-r3s"}      # 如果没传，默认 r3s
+ROOTFS_PARTSIZE=${2:-"1024"}                 # 如果没传，默认 1024
+INCLUDE_DOCKER=${3:-"no"}                    # 如果没传，默认 no
+
+# 验证收到的参数
+echo "Target Profile: $PROFILE"
+echo "Rootfs Size: $ROOTFS_PARTSIZE"
+echo "Docker Support: $INCLUDE_DOCKER"
+
 source shell/custom-packages.sh
 echo "第三方软件包: $CUSTOM_PACKAGES"
 LOGFILE="/tmp/uci-defaults-log.txt"
@@ -70,12 +82,6 @@ PACKAGES="$PACKAGES luci-app-wol luci-i18n-wol-zh-cn"
 PACKAGES="$PACKAGES luci-app-ddns luci-i18n-ddns-zh-cn"
 PACKAGES="$PACKAGES luci-app-hd-idle luci-i18n-hd-idle-zh-cn"
 
-# --- Docker 逻辑 ---
-if [ "$INCLUDE_DOCKER" = "yes" ]; then
-    # 彻底移除 docker-compose 以防架构冲突，只保留核心和界面
-    PACKAGES="$PACKAGES docker-ce dockerd luci-app-dockerman luci-i18n-dockerman-zh-cn luci-lib-docker"
-fi
-
 # --- Docker 逻辑修正 ---
 if [ "$INCLUDE_DOCKER" = "yes" ]; then
     # 尝试安装 docker-ce，如果源里只有 docker，它会自动处理
@@ -112,7 +118,8 @@ else
 fi
 
 
-make image PROFILE=$PROFILE PACKAGES="$PACKAGES" FILES="/home/build/immortalwrt/files" ROOTFS_PARTSIZE=$ROOTFS_PARTSIZE
+#make image PROFILE=$PROFILE PACKAGES="$PACKAGES" FILES="/home/build/immortalwrt/files" ROOTFS_PARTSIZE=$ROOTFS_PARTSIZE
+make image PROFILE="$PROFILE" PACKAGES="$PACKAGES" FILES="files" CONFIG_TARGET_ROOTFS_PARTSIZE="$ROOTFS_PARTSIZE"
 
 if [ $? -ne 0 ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - Error: Build failed!"
