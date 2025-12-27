@@ -41,39 +41,37 @@ cat repositories.conf
 # 定义所需安装的包列表
 PACKAGES=""
 
-# --- 基础系统 (wget-ssl 改为 wget-https) ---
-PACKAGES="base-files libc libgcc uci ubus dropbear logd mtd opkg bash htop curl wget-https ca-bundle ca-certificates"
-
-# --- 磁盘支持 (移除了 luci-app-diskman 极其依赖，保留底层工具) ---
-PACKAGES="$PACKAGES block-mount fdisk lsblk blkid parted resize2fs smartmontools"
-PACKAGES="$PACKAGES kmod-fs-ext4 kmod-fs-vfat kmod-fs-ntfs3 kmod-fs-exfat kmod-fs-btrfs kmod-fs-f2fs kmod-fs-nfs kmod-fs-nfsd"
-PACKAGES="$PACKAGES kmod-usb-storage kmod-usb-storage-uas kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb3"
-
-# --- 瑞芯微核心驱动 ---
-PACKAGES="$PACKAGES kmod-ata-ahci kmod-ata-dwc kmod-mmc kmod-r8125 kmod-r8168 kmod-r8169"
-
-# --- USB 网卡 (移除了 r8152-firmware 以防冲突) ---
-PACKAGES="$PACKAGES kmod-usb-net kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152"
-PACKAGES="$PACKAGES kmod-usb-net-cdc-ether kmod-usb-net-cdc-mbim kmod-usb-net-cdc-ncm kmod-usb-net-qmi-wwan"
-
-# --- 无线支持 ---
-PACKAGES="$PACKAGES kmod-rtw88-8822ce kmod-rtw88-8821ce kmod-rtw88-8821cu kmod-rtw88-8822cu"
-PACKAGES="$PACKAGES kmod-mt7921e kmod-mt7921u kmod-mt76x2u kmod-ath10k"
-
-# --- 网络核心 ---
+# --- 基础系统与网络核心 (保持最小化运行) ---
+PACKAGES="base-files libc libgcc uci ubus dropbear logd mtd opkg bash htop curl wget ca-bundle ca-certificates"
 PACKAGES="$PACKAGES -dnsmasq dnsmasq-full firewall4 nftables kmod-nft-offload"
 PACKAGES="$PACKAGES ip-full ipset iw ppp ppp-mod-pppoe wpad-openssl"
 
-# --- 应用层与常用插件 (删除了 diskman，由 luci-app-samba4 等提供核心功能) ---
-PACKAGES="$PACKAGES luci luci-base luci-compat luci-mod-admin-full"
-PACKAGES="$PACKAGES luci-theme-argon luci-app-argon-config luci-i18n-argon-config-zh-cn"
-PACKAGES="$PACKAGES luci-app-cpufreq luci-i18n-cpufreq-zh-cn"
-PACKAGES="$PACKAGES luci-app-ttyd luci-i18n-ttyd-zh-cn"
-PACKAGES="$PACKAGES luci-app-samba4 luci-i18n-samba4-zh-cn"
-PACKAGES="$PACKAGES luci-app-upnp luci-i18n-upnp-zh-cn"
-PACKAGES="$PACKAGES luci-app-wol luci-i18n-wol-zh-cn"
-PACKAGES="$PACKAGES luci-app-ddns luci-i18n-ddns-zh-cn"
-PACKAGES="$PACKAGES luci-app-hd-idle luci-i18n-hd-idle-zh-cn"
+# --- 硬件驱动 (保留核心驱动，强制踢出冲突包) ---
+PACKAGES="$PACKAGES -kmod-ath10k-sdio kmod-ath10k"
+PACKAGES="$PACKAGES kmod-ata-ahci kmod-ata-dwc kmod-mmc kmod-r8125 kmod-r8168 kmod-r8169"
+
+# --- 磁盘与扩展支持 ---
+PACKAGES="$PACKAGES block-mount fdisk lsblk blkid parted resize2fs smartmontools"
+PACKAGES="$PACKAGES kmod-fs-ext4 kmod-fs-vfat kmod-fs-ntfs3 kmod-fs-exfat kmod-fs-btrfs kmod-fs-f2fs"
+PACKAGES="$PACKAGES kmod-usb-storage kmod-usb-storage-uas kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb3"
+PACKAGES="$PACKAGES kmod-usb-net kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152"
+
+# --- 已全部注释的应用层与常用插件 ---
+# PACKAGES="$PACKAGES luci luci-base luci-compat luci-mod-admin-full"
+# PACKAGES="$PACKAGES luci-theme-argon luci-app-argon-config luci-i18n-argon-config-zh-cn"
+# PACKAGES="$PACKAGES luci-app-cpufreq luci-i18n-cpufreq-zh-cn"
+# PACKAGES="$PACKAGES luci-app-ttyd luci-i18n-ttyd-zh-cn"
+# PACKAGES="$PACKAGES luci-app-samba4 luci-i18n-samba4-zh-cn"
+# PACKAGES="$PACKAGES luci-app-upnp luci-i18n-upnp-zh-cn"
+# PACKAGES="$PACKAGES luci-app-wol luci-i18n-wol-zh-cn"
+# PACKAGES="$PACKAGES luci-app-ddns luci-i18n-ddns-zh-cn"
+# PACKAGES="$PACKAGES luci-app-hd-idle luci-i18n-hd-idle-zh-cn"
+
+# --- Docker 逻辑 ---
+if [ "$INCLUDE_DOCKER" = "yes" ]; then
+    # 彻底移除 docker-compose 以防架构冲突，只保留核心和界面
+    PACKAGES="$PACKAGES docker-ce dockerd luci-app-dockerman luci-i18n-dockerman-zh-cn luci-lib-docker"
+fi
 
 # --- Docker 逻辑修正 ---
 if [ "$INCLUDE_DOCKER" = "yes" ]; then
