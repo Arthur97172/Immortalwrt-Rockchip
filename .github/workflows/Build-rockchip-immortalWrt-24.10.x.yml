@@ -139,7 +139,7 @@ jobs:
          cp files/etc/uci-defaults/99-custom.sh imagebuilder/files/etc/uci-defaults/
         
          # 拷贝架构配置文件
-         [ -f "arch/arch.conf" ] && cp arch/arch.conf imagebuilder/files/etc/opkg/arch.conf || echo "arch.conf not found"
+         [ -f "arch/arch.conf" ] && cp files/arch/arch.conf imagebuilder/files/etc/opkg/arch.conf || echo "arch.conf not found"
         
          # 拷贝自定义配置文件夹 (custom/ -> /etc/config/)
          [ -d "custom" ] && cp -r custom/* imagebuilder/files/etc/config/ 2>/dev/null || true
