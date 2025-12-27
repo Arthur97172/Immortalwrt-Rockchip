@@ -37,37 +37,34 @@ fi
 echo "$(date '+%Y-%m-%d %H:%M:%S') - 开始构建固件..."
 echo "查看repositories.conf信息——————"
 cat repositories.conf
-# 定义所需安装的包列表 下列插件你都可以自行删减
+
+# 定义所需安装的包列表
 PACKAGES=""
 
-# --- 基础系统与核心依赖 ---
+# --- 基础系统与核心依赖 (删除了不存在的 info 和 ethertypes) ---
 PACKAGES="base-files libc libgcc uci ubus dropbear logd mtd opkg bash htop curl wget-ssl ca-bundle ca-certificates"
 
-# --- 磁盘与文件系统支撑 (适配 USB 3.0/SATA/M.2 接口) ---
+# --- 磁盘与文件系统支撑 ---
 PACKAGES="$PACKAGES block-mount fdisk lsblk blkid parted resize2fs smartmontools"
 PACKAGES="$PACKAGES kmod-fs-ext4 kmod-fs-vfat kmod-fs-ntfs3 kmod-fs-exfat kmod-fs-btrfs kmod-fs-f2fs kmod-fs-nfs kmod-fs-nfsd"
 PACKAGES="$PACKAGES kmod-usb-storage kmod-usb-storage-uas kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb3"
 
-# --- 瑞芯微硬件相关驱动 (板载以太网/SD卡/SATA) ---
-PACKAGES="$PACKAGES kmod-dwmac-rockchip kmod-ata-ahci kmod-ata-dwc kmod-mmc kmod-r8125 kmod-r8168 kmod-r8169"
+# --- 瑞芯微硬件相关驱动 (删除了报错的 kmod-dwmac-rockchip，该驱动已内置在内核) ---
+PACKAGES="$PACKAGES kmod-ata-ahci kmod-ata-dwc kmod-mmc kmod-r8125 kmod-r8168 kmod-r8169"
 
-# --- 增强型 USB 有线网卡支持 (绿联/TP-LINK/2.5G 网口扩展) ---
+# --- 增强型 USB 有线网卡支持 ---
 PACKAGES="$PACKAGES kmod-usb-net kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 r8152-firmware"
 PACKAGES="$PACKAGES kmod-usb-net-cdc-ether kmod-usb-net-cdc-mbim kmod-usb-net-cdc-ncm kmod-usb-net-qmi-wwan"
 
-# --- 增强型 USB/板载 无线网卡支持 ---
+# --- 增强型 USB/板载 无线网卡支持 (严格确保不包含 kmod-ath10k-sdio 以免文件冲突) ---
 PACKAGES="$PACKAGES kmod-rtw88-8822ce kmod-rtw88-8821ce kmod-rtw88-8821cu kmod-rtw88-8822cu"
 PACKAGES="$PACKAGES kmod-mt7921e kmod-mt7921u kmod-mt76x2u kmod-ath10k"
 
-# --- 网络核心 (强制替换默认 dnsmasq 为 full 版以支持更多功能) ---
+# --- 网络核心 ---
 PACKAGES="$PACKAGES -dnsmasq dnsmasq-full firewall4 nftables kmod-nft-offload"
-PACKAGES="$PACKAGES ip-full ipset iw info ppp ppp-mod-pppoe ethertypes"
+PACKAGES="$PACKAGES ip-full ipset iw ppp ppp-mod-pppoe"
 
-# --- Docker 支持 (Rockchip 性能强劲，Docker 是核心玩法) ---
-# 使用 docker-ce 是目前最稳妥的选择
-PACKAGES="$PACKAGES docker-ce dockerd luci-app-dockerman luci-i18n-dockerman-zh-cn"
-
-# --- 应用层与常用插件 ---
+# --- 应用层与常用插件 (删除了 Docker 相关的硬编码，由下方的 if 统一控制) ---
 PACKAGES="$PACKAGES luci luci-base luci-compat luci-mod-admin-full"
 PACKAGES="$PACKAGES luci-theme-argon luci-app-argon-config luci-i18n-argon-config-zh-cn"
 PACKAGES="$PACKAGES luci-app-cpufreq luci-i18n-cpufreq-zh-cn"
@@ -78,20 +75,14 @@ PACKAGES="$PACKAGES luci-app-wol luci-i18n-wol-zh-cn"
 PACKAGES="$PACKAGES luci-app-ddns luci-i18n-ddns-zh-cn"
 PACKAGES="$PACKAGES luci-app-diskman luci-i18n-diskman-zh-cn"
 PACKAGES="$PACKAGES luci-app-hd-idle luci-i18n-hd-idle-zh-cn"
-
-# --- 核心网络安全与工具 ---
-# 确保使用 wpad-openssl 提供完整的 WiFi 加密支持
 PACKAGES="$PACKAGES wpad-openssl"
 
-# 判断是否需要编译 Docker 插件
+# --- Docker 逻辑修正 ---
 if [ "$INCLUDE_DOCKER" = "yes" ]; then
-    # 一次性添加：引擎(docker-ce) + 守护进程(dockerd) + 界面(dockerman) + 中文包
-    PACKAGES="$PACKAGES docker-ce dockerd luci-app-dockerman luci-i18n-dockerman-zh-cn"
-    
-    # 额外补充：Docker 通常需要 cgroup 支持和辅助库
-    PACKAGES="$PACKAGES luci-lib-docker libnetwork"
-    
-    echo "Successfully added all Docker related packages to the list."
+    # 尝试安装 docker-ce，如果源里只有 docker，它会自动处理
+    # 删除了 docker-compose，因为它会导致架构不匹配报错
+    PACKAGES="$PACKAGES docker-ce dockerd luci-app-dockerman luci-i18n-dockerman-zh-cn luci-lib-docker"
+    echo "Adding Docker support..."
 fi
 
 # 文件管理器
