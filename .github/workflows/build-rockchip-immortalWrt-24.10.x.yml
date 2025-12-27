@@ -213,8 +213,8 @@ jobs:
           name: ImmortWrt-Rockchip
           body_path: ${{ github.workspace }}/router-info.md
           files: |
-            ${{ github.workspace }}/bin/targets/rockchip/armv8/*.img.gz
-            ${{ github.workspace }}/bin/targets/rockchip/armv8/sha256sums
+            imagebuilder/bin/targets/rockchip/armv8/*.img.gz
+            imagebuilder/bin/targets/rockchip/armv8/sha256sums
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
