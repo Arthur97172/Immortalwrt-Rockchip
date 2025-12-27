@@ -192,7 +192,7 @@ jobs:
           cat > ${{ github.workspace }}/router-info.md <<EOF
           ## 📡 路由器后台信息
 
-          ✳️ 软路由型号： ${{ github.event.inputs.profile }}
+          ✳️ 软路由型号： ImmortalWrt-${{ env.VERSION }}-rockship-armv8
           🏠 后台地址： ${{ github.event.inputs.custom_router_ip }}
           👤 用户名： root
           🔑 密码： 无
