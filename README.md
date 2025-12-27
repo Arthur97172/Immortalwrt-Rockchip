@@ -1,12 +1,12 @@
 <div align="center">
   <img src="./files/screenshot/banner.svg" style="max-width: 100%; height: auto;" />
 
-  <h1>基于ImmortalWrt Imagebuilder X86-64</h1>
+  <h1>基于ImmortalWrt Imagebuilder rockchip-armv8</h1>
 
-  <img src="https://img.shields.io/github/downloads/Arthur97172/ImmortalWrt-X86/total.svg?style=for-the-badge&color=32C955"/>
-  <img src="https://img.shields.io/github/stars/Arthur97172/ImmortalWrt-X86.svg?style=for-the-badge&color=orange"/>
-  <img src="https://img.shields.io/github/forks/Arthur97172/ImmortalWrt-X86.svg?style=for-the-badge&color=ff69b4"/>
-  <img src="https://img.shields.io/github/license/Arthur97172/ImmortalWrt-X86.svg?style=for-the-badge&color=blueviolet"/>
+  <img src="https://img.shields.io/github/downloads/Arthur97172/Immortalwrt-rockchip/total.svg?style=for-the-badge&color=32C955"/>
+  <img src="https://img.shields.io/github/stars/Arthur97172/Immortalwrt-rockchip.svg?style=for-the-badge&color=orange"/>
+  <img src="https://img.shields.io/github/forks/Arthur97172/Immortalwrt-rockchip.svg?style=for-the-badge&color=ff69b4"/>
+  <img src="https://img.shields.io/github/license/Arthur97172/Immortalwrt-rockchip.svg?style=for-the-badge&color=blueviolet"/>
 
   [![](https://img.shields.io/badge/-目录:-696969.svg)](#readme)
   [![](https://img.shields.io/badge/-项目介绍-FFFFFF.svg)](#-项目介绍-)
