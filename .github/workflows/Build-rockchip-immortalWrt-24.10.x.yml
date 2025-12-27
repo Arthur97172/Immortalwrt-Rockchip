@@ -206,6 +206,7 @@ jobs:
           tag_name: ImmortalWrt-${{ env.VERSION }}-rockship-armv8-RELEASE
           #name: ImmortWrt-Rockchip
           body_path: ${{ github.workspace }}/router-info.md
+          overwrite: true
           files: |
             imagebuilder/bin/targets/rockchip/armv8/*.img.gz
             imagebuilder/bin/targets/rockchip/armv8/sha256sums
