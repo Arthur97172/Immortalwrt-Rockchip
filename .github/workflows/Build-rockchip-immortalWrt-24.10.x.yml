@@ -194,7 +194,7 @@ jobs:
         run: |
           cat > ${{ github.workspace }}/router-info.md <<EOF
           ## 📡 路由器后台信息
-
+          
           🏠 后台地址： ${{ github.event.inputs.ipaddr }}
           👤 用户名： root
           🔑 密码： 无
@@ -209,7 +209,6 @@ jobs:
           overwrite: true
           files: |
             imagebuilder/bin/targets/rockchip/armv8/*.img.gz
-            imagebuilder/bin/targets/rockchip/armv8/sha256sums
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
