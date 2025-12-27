@@ -82,8 +82,6 @@ PACKAGES="$PACKAGES luci-app-argon-config luci-i18n-argon-config-zh-cn"
 PACKAGES="$PACKAGES luci-app-cpufreq luci-i18n-cpufreq-zh-cn luci-app-ttyd luci-i18n-ttyd-zh-cn"
 
 # --- 功能插件 (基于你的配置) ---
-PACKAGES="$PACKAGES luci-app-alist alist"
-PACKAGES="$PACKAGES luci-app-aria2 aria2 ariang"
 PACKAGES="$PACKAGES luci-app-samba4 luci-i18n-samba4-zh-cn"
 PACKAGES="$PACKAGES luci-app-upnp luci-i18n-upnp-zh-cn"
 PACKAGES="$PACKAGES luci-app-wol luci-i18n-wol-zh-cn"
