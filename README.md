@@ -24,6 +24,34 @@
 > [!TIP]
 > 😂此固件为 **非官方构建，不保证完全无BUG** ，请知悉😂
 
+## 😊 支持设备 [![](https://img.shields.io/badge/-支持设备-FFFFFF.svg)](#-支持设备-)
+| 品名     | 设备 |
+|----------|------|
+| ariaboard    | ariaboard_photonicat |
+| armsom    | armsom_sige3, armsom_sige7 |
+| cyber   | cyber_cyber3588-aib |
+| ezpro   | ezpro_mrkaio-m68s |
+| firefly  | firefly_roc-rk3328-cc, firefly_roc-rk3568-pc, friendlyarm_nanopc-t4, friendlyarm_nanopc-t6, friendlyarm_nanopi-r2c, friendlyarm_nanopi-r2c-plus, friendlyarm_nanopi-r2s, friendlyarm_nanopi-r3s, friendlyarm_nanopi-r4s, friendlyarm_nanopi-r4se, friendlyarm_nanopi-r4s-enterprise, friendlyarm_nanopi-r5c, friendlyarm_nanopi-r5s, friendlyarm_nanopi-r6c, friendlyarm_nanopi-r6s |
+| huake  | huake_guangmiao-g4c |
+| lunzn   | lunzn_fastrhino-r66s, lunzn_fastrhino-r68s |
+| lyt     | lyt_t68m |
+| mmbox    | mmbox_anas3035 |
+| ninetripod    | ninetripod_x3568-v4 |
+| nlnet   | nlnet_xiguapi-v3 |
+| pine64    | pine64_rock64, pine64_rockpro64 |
+| s905l2   | MGV2000, MGV2000-K, MGV3000, Wojia-TV-IPBS9505, M301A, E900v21E, e900v21d, CM201-1, IP108H, MGV2000-CW |
+| s905lb   | Q96-mini, BesTV-R3300L, SumaVision-Q7, MG101, s65, IPBS9505 |
+| s905w    | X96-Mini, TX3-Mini, W95, X96W/FunTV, MXQ-Pro-4K, MeCool-m8s-pro-W |
+| s905     | Beelink-Mini-MX-2G, Sunvell-T95M, MXQ-Pro+4K, SumaVision-Q5 |
+| rk3588(s)| Radxa-Rock5B, Radxa-Rock5C, Orange-Pi-5-Plus, Beelink-IPC-R, HLink-H88K, HLink-H88K-V3, NanoPC-T6, Smart-Am60, DC-A588, Orangepi-5B |
+| rk3568   | FastRhino-R66S, FastRhino-R68S, Radxa-E25, NanoPi-R5S, NanoPi-R5C, HLink-H66K, HLink-H68K, HLink-H69K, Seewo-sv21, Mrkaio-m68s, Swan1-w28, Ruisen-box, DG-TN3568, Alark35-3500, MMBox-Anas3035, Wocyber-A3, Photonicat, NSY-G68-Plus, NSY-G68-Plus, BDY-G18-Pro |
+| rk3566   | Panther-X2, JP-TvBox, LCKFB-Taishan-Pi, WXY-OEC-turbo-4g, Station-M2 |
+| rk3528   | HLink-H28K, Radxa-E20C, H96-Max-M2 |
+| rk3399   | EAIDK-610, King3399, TN3399, Kylin3399, ZCube1-Max, CRRC, SMART-AM40, SW799, ZYSJ, DG-3399, DLFR100, Emb3531, Leez-p710, tvi3315a, xiaobao, Fine3399, Firefly-RK3399, LX-R3S, Hugsun-x99, Tb-ls3399, Hisense-hs530r, Tpm312, ZK-rk39a, YSKJ, Fmx1-Pro, Sv-33a6x, AIO-3399b |
+| rk3328   | BeikeYun, Chainedbox-L1-Pro, Station-M1, Bqeel-MVR9, Renegade/Firefly |
+| rk3318   | RX3318-Box |
+| h6       | Vplus, Tanix-TX6, TQC-A01 |
+
 ## 😅 第三方插件 [![](https://img.shields.io/badge/-第三方插件-FFFFFF.svg)](#-第三方插件-)
 <div align="left">
 
